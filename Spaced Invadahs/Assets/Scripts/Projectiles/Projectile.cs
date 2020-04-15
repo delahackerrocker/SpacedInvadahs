@@ -5,24 +5,33 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private float speed = 4;
-    private Transform player;
+
+    private GameObject[] enemies;
+    private Transform projectileTarget;
     private Vector3 target;
 
     // Start is called before the first frame update
     void Start()
-    {   
-        player = GameObject.FindGameObjectWithTag("Enemy").transform;
-        target = new Vector3(player.position.x, player.position.y, player.position.z);   
+    {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        int chooseRandomEnemy = Random.Range(0, enemies.Length);
+        projectileTarget = enemies[chooseRandomEnemy].transform;
+
+        target = new Vector3(projectileTarget.position.x, projectileTarget.position.y, projectileTarget.position.z);   
     }
 
     // Update is called once per frame
     void Update()
     {
-        target = new Vector3(player.position.x, player.position.y, player.position.z);
+        target = new Vector3(projectileTarget.position.x, projectileTarget.position.y, projectileTarget.position.z);
 
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
 
-        if(transform.position.x == target.x && transform.position.y == target.y && transform.position.z == target.z)
+        // Make the missile rotate towards the target
+        this.transform.LookAt(target);
+
+        if (transform.position.x == target.x && transform.position.y == target.y && transform.position.z == target.z)
         {
             DestroyProjectile();
         }
@@ -30,7 +39,7 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if(other.CompareTag("Enemy"))
         {
             DestroyProjectile();
         }

@@ -19,7 +19,7 @@ public class KeyboardInput : MonoBehaviour
         // If the player presses SPACE bar we'll make Mario Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            print("SPACE");
+            //print("SPACE");
             goMario.Shoot();
         }
 
