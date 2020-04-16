@@ -24,6 +24,7 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Heat Seeking Mode Stuff
         target = new Vector3(projectileTarget.position.x, projectileTarget.position.y, projectileTarget.position.z);
 
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
@@ -37,10 +38,13 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Enemy"))
+        //Debug.Log("Projectile OnTriggerEnter");
+        if (other.CompareTag("Enemy"))
         {
+            Debug.Log("Projectile struck Enemy");
+            other.gameObject.GetComponent<Drone>().Explode();
             DestroyProjectile();
         }
     }

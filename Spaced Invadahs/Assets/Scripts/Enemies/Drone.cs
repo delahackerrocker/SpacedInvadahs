@@ -5,7 +5,15 @@ using DG.Tweening;
 
 public class Drone : MonoBehaviour
 {
+    protected bool isExploding = false;
+
+    public GameObject mesh;
+
     public GameObject projectileTemplate;
+
+    public GameObject particleFX;
+
+    public AudioSource explosionSound;
 
     [HideInInspector] public HorizontalMovement horizontalGear = HorizontalMovement.NOTHING;
     [HideInInspector] public VerticalMovement VerticalGear = VerticalMovement.NOTHING;
@@ -32,12 +40,20 @@ public class Drone : MonoBehaviour
 
     private void Start()
     {
+        if (particleFX != null) particleFX.SetActive(false);
+
         thePlayer = GameObject.FindGameObjectWithTag("Player");
 
         RandomizeDirection();
 
         DOTween.defaultEaseType = Ease.OutBounce;
         newLocation = this.transform.position;
+    }
+
+    public void Explode()
+    {
+        isExploding = true;
+        particleFX.SetActive(true);
     }
 
     public void RandomizeDirection()
@@ -95,7 +111,21 @@ public class Drone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isExploding)
         {
+            if (mesh.activeSelf) { explosionSound.Play(); }
+            mesh.SetActive(false);
+            if (particleFX.GetComponent<ParticleSystem>().IsAlive())
+            {
+                // it's still animating the explosion
+            } else
+            {
+                isExploding = false;
+                particleFX.GetComponent<ParticleSystem>().Clear();
+                Destroy(this.gameObject);
+                Destroy(this);
+            }
+        } else {
             //print("Update: targetTime="+ targetTime);
             targetTime -= Time.deltaTime;
 
