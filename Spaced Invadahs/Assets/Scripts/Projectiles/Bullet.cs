@@ -17,10 +17,11 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Projectile OnTriggerEnter");
+        Debug.Log("bullet onTriggerEnter struck "+ other.name);
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Projectile struck Enemy");
+            print("bullet struck an enemy");
+            Debug.Log("Struck Enemey");
             other.gameObject.GetComponent<Drone>().Explode();
             DestroyProjectile();
         }

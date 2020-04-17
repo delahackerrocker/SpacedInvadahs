@@ -23,6 +23,12 @@ public class Player : MonoBehaviour
 
     public Transform projectileSpawnPoint;
 
+    public GameObject particleFX;
+
+    public AudioSource explosionSound;
+
+    protected bool isExploding = false;
+
     [HideInInspector] public HorizontalMovement horizontalGear = HorizontalMovement.NOTHING;
     [HideInInspector] public VerticalMovement VerticalGear = VerticalMovement.NOTHING;
 
@@ -47,6 +53,12 @@ public class Player : MonoBehaviour
     {
         DOTween.defaultEaseType = Ease.OutBounce;
         newLocation = this.transform.position;
+    }
+
+    public void Explode()
+    {
+        isExploding = true;
+        particleFX.SetActive(true);
     }
 
     public void DOMove(Vector3 newLocation)

@@ -6,19 +6,17 @@ public class Projectile : MonoBehaviour
 {
     private float speed = 4;
 
-    private GameObject[] enemies;
+    private GameObject enemy;
     private Transform projectileTarget;
     private Vector3 target;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemy = GameObject.FindGameObjectWithTag("Player");
 
-        int chooseRandomEnemy = Random.Range(0, enemies.Length);
-        projectileTarget = enemies[chooseRandomEnemy].transform;
-
-        target = new Vector3(projectileTarget.position.x, projectileTarget.position.y, projectileTarget.position.z);   
+        target = enemy.transform.position;
+;   
     }
 
     // Update is called once per frame
@@ -34,23 +32,17 @@ public class Projectile : MonoBehaviour
 
         if (transform.position.x == target.x && transform.position.y == target.y && transform.position.z == target.z)
         {
-            DestroyProjectile();
+            Destroy(this.gameObject);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Projectile OnTriggerEnter");
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Projectile struck Enemy");
-            other.gameObject.GetComponent<Drone>().Explode();
-            DestroyProjectile();
+            other.gameObject.GetComponent<Assault>().Explode();
         }
-    }
-
-    void DestroyProjectile()
-    {
-        Destroy(gameObject);
     }
 }

@@ -1,9 +1,9 @@
-﻿using System.Collections;`
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class Drone : MonoBehaviour
+public class Assault : MonoBehaviour
 {
     protected bool isExploding = false;
 
@@ -40,11 +40,6 @@ public class Drone : MonoBehaviour
 
     protected Vector3 targetLocation;
 
-    private void KeepTrack( GameObject target)
-    {
-
-    }
-
     private void Start()
     {
         if (particleFX != null) particleFX.SetActive(false);
@@ -69,10 +64,12 @@ public class Drone : MonoBehaviour
         if (randomizeDirection > .51)
         {
             horizontalGear = HorizontalMovement.RIGHT;
+            Shoot();
         }
         else
         {
             horizontalGear = HorizontalMovement.LEFT;
+            Shoot();
         }
     }
 
@@ -112,7 +109,7 @@ public class Drone : MonoBehaviour
 
     public void Shoot()
     {
-        Instantiate(projectileTemplate, this.gameObject.transform.position, Quaternion.identity);
+        //Instantiate(projectileTemplate, this.gameObject.transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
