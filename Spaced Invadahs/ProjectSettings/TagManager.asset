@@ -6,8 +6,8 @@ TagManager:
   tags:
   - Shootable
   - Enemy
-  - Projectile
-  - Bullet
+  - BadGuyBullet
+  - GoodGuyBullet
   layers:
   - Default
   - TransparentFX

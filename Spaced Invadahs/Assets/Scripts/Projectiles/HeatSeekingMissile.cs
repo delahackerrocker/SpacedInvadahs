@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class HeatSeekingMissile : MonoBehaviour
 {
     private float speed = 4;
 
@@ -17,14 +17,16 @@ public class Projectile : MonoBehaviour
         projectileTarget = enemy.transform;
 
         target = enemy.transform.position;
-;   
+        ;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        transform.position = transform.position + (Vector3.down/16);
+        // Heat Seeking Mode Stuff
+        target = new Vector3(projectileTarget.position.x, projectileTarget.position.y, projectileTarget.position.z);
+
+        transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
 
         // Make the missile rotate towards the target
         this.transform.LookAt(target);

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class GG_Bullet : MonoBehaviour
 {
-    private float speed = 4;
+    protected bool isAlive = true;
+    protected bool isExploding = false;
+
+    public GameObject mesh;
 
     private GameObject enemy;
     private Transform projectileTarget;
@@ -13,18 +16,18 @@ public class Projectile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy = GameObject.FindGameObjectWithTag("Player");
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
         projectileTarget = enemy.transform;
 
         target = enemy.transform.position;
-;   
+        ;
     }
 
     // Update is called once per frame
     void Update()
     {
         //transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        transform.position = transform.position + (Vector3.down/16);
+        transform.position = transform.position + (Vector3.down / 16);
 
         // Make the missile rotate towards the target
         this.transform.LookAt(target);
@@ -38,10 +41,10 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Projectile OnTriggerEnter");
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Enemy"))
         {
             Debug.Log("Projectile struck Enemy");
-            other.gameObject.GetComponent<Assault>().Explode();
+            other.gameObject.GetComponent<Drone>().Explode();
         }
     }
 }

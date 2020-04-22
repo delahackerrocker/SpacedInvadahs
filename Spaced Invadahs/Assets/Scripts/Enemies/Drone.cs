@@ -10,11 +10,11 @@ public class Drone : MonoBehaviour
 
     public GameObject mesh;
 
-    public GameObject projectileTemplate;
-
     public GameObject particleFX;
 
     public AudioSource explosionSound;
+
+    public GameObject bulletTemplate;
 
     [HideInInspector] public HorizontalMovement horizontalGear = HorizontalMovement.NOTHING;
     [HideInInspector] public VerticalMovement VerticalGear = VerticalMovement.NOTHING;
@@ -108,7 +108,7 @@ public class Drone : MonoBehaviour
 
     public void Shoot()
     {
-        Instantiate(projectileTemplate, this.gameObject.transform.position, Quaternion.identity);
+        Instantiate(bulletTemplate, this.gameObject.transform.position, Quaternion.Euler(90f, 0f, 0f));
     }
 
     // Update is called once per frame
@@ -137,13 +137,21 @@ public class Drone : MonoBehaviour
             }
             else
             {
-                //print("Update: targetTime="+ targetTime);
+                // the Drone is alive and not exploding
                 targetTime -= Time.deltaTime;
 
                 if (targetTime <= 0.0f)
                 {
                     TimerEnded();
                     targetTime = timerLength;
+                }
+
+                int decideToShoot = Random.Range(0, 100);
+                //Debug.Log("decideToShoot: " + decideToShoot);
+                if (decideToShoot > 95)
+                {
+                    // shoot a bullet
+                    Shoot();
                 }
             }
         } else

@@ -101,9 +101,10 @@ public class Player : MonoBehaviour
         newLocation += moveBackwardAmount;
     }
 
+    Vector3 bulletRotation = new Vector3(-90f, 0f, 0f);
     public void Shoot()
     {
-        Instantiate(projectileTemplate, projectileSpawnPoint.position, Quaternion.identity);
+        Instantiate(projectileTemplate, projectileSpawnPoint.position, Quaternion.Euler(-90f,0f,0f));
     }
 
     void Update()
